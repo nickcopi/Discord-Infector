@@ -1,4 +1,6 @@
 const fs = require('fs');
+const request = require('request-promise');
+const EOL = require('os').EOL;
 
 
 /*
@@ -50,8 +52,51 @@ const assertArguments = num=>{
 	return true;
 }
 
+
+/*
+ * Save a script from a given URL into a given path in a file.
+ *
+ * */
+const dropScript = async (path,url)=>{
+	try{
+		fs.writeFileSync(path, await request(url));
+		return true;
+	} catch (e){
+		console.error(e);
+		return false;
+	}
+}
+
+/*
+ * Given a path to a script and a script name, prepend a require() of that script name to the
+ * file in the specified path.
+ *
+ * */
+const patchScript = (path,scriptName)=>{
+	let script;
+	try{
+		script = fs.readFileSync(path).toString();
+	} catch(e){
+		console.error(e);
+		return false;
+	}
+	const patchLine = `require('./${scriptName}');`;
+	if(script.split(EOL)[0] !== patchLine){
+		script = patchLine + EOL + script;
+		try{
+			fs.writeFileSync(path,script);
+		} catch(e){
+			console.error(e);
+			return false;
+		}
+	}
+	return true;
+}
+
 module.exports = {
 	findVersion,
 	assertPath,
-	assertArguments
+	assertArguments,
+	dropScript,
+	patchScript
 }
