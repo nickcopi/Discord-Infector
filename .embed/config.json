@@ -1,0 +1,5 @@
+{
+	"name":"Discord Infector",
+	"tags":["Cyber","Tools"],
+	"description":"Allows you to modify some of Discord's data files on Windows to run arbitrary code every time Discord is launched."
+}
