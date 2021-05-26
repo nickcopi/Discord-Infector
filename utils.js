@@ -1,7 +1,8 @@
 const fs = require('fs');
-const request = require('request-promise');
 const EOL = require('os').EOL;
 const payload = require('./payload');
+
+const versionPrefix = 'app-';
 
 
 
@@ -27,15 +28,24 @@ const fillTemplate = (body,key,value)=>{
  *
  * */
 const findVersion = base=>{
-	const versions = fs.readdirSync(base).filter(name=>{
-		return name.split('.').filter(number=>{
+	let versions = fs.readdirSync(base).filter(name=>{
+		return name.split(versionPrefix)[1] &&name.split(versionPrefix)[1].split('.').filter(number=>{
 			return !isNaN(Number(number))
 		}).length
 	});
-	if(versions.length !== 1){
-		console.error(`Cannot find Discord versioned module superfolder.`);
+	versions = versions.sort((v2,v1)=>{
+		v1 = v1.split('.');
+		v2 = v2.split('.');
+		for(let i = 0; i < v1.length; i++){
+			const diff = v1[i] - v2[i];
+			if(diff) return diff;
+		}
+	});
+	if(versions.length < 1){
+		console.error(`Cannot find a Discord versioned module superfolder.`);
 		return false;
 	}
+	console.log(`Patching local version ${versions[0]}`);
 	return versions[0];
 }
 

