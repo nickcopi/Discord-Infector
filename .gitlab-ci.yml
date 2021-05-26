@@ -1,0 +1,29 @@
+stages:  
+   - build  
+   - deploy
+build prod:  
+   image: node:12.10.0-alpine
+   stage: build  
+   only:    
+      - tags  
+   script:    
+      # Install dependencies    
+      - npm install    
+      # Build App    
+      - npm run build  
+   artifacts:    
+      paths:      
+         # Build folder      
+         - DiscordInfector.exe
+      expire_in: 1 hour
+deploy prod:  
+   image: nixos/nix:latest
+   stage: deploy  
+   only:    
+      - tags  
+   script:    
+      - nix-env -iA nixos.gitAndTools.gh
+      - gh auth login
+      - gh release create $CI_COMMIT_TAG DiscordInfector.exe
+
+
