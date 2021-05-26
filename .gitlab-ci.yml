@@ -9,6 +9,8 @@ build prod:
    script:    
       # Install dependencies    
       - npm install    
+      # Install dependencies    
+      - npm install -g pkg
       # Build App    
       - npm run build  
    artifacts:    
