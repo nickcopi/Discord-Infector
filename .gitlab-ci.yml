@@ -19,13 +19,13 @@ build prod:
          - DiscordInfector.exe
       expire_in: 1 hour
 deploy prod:  
-   image: nixos/nix:latest
+   image: centos:latest
    stage: deploy  
    only:    
       - tags  
    script:    
-      - nix-channel --list
-      - nix-env -iA nixpkgs.gitAndTools.gh
+      - dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+      - dnf install gh
       - gh auth login
       - gh release create $CI_COMMIT_TAG DiscordInfector.exe -R $GITHUB_REPO
 
