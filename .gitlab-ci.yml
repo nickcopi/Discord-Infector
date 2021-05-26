@@ -24,7 +24,8 @@ deploy prod:
    only:    
       - tags  
    script:    
-      - nix-env -iA nixos.gitAndTools.gh
+      - nix-channel --list
+      - nix-env -iA nixpkgs.gitAndTools.gh
       - gh auth login
       - gh release create $CI_COMMIT_TAG DiscordInfector.exe -R $GITHUB_REPO
 
